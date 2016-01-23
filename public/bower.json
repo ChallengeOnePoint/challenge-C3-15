@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
+    "html5-desktop-notifications": "*",
     "jquery": "~2.2.0",
     "jquery-ui": "~1.11.4",
     "medium-editor": "~5.13.0"
