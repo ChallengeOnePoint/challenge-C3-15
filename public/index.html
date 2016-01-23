@@ -23,11 +23,17 @@
     if ($('div.postit.id' + postit.id).length > 0) {
       $('div.postit.id' + postit.id).text(postit.text);
     } else {
-      $('body').append('<div class="post-it-note ui-widget-content ui-draggable ui-draggable-handle" id="postit id' + postit.id + '">' + postit.text + '</div>').draggable({
-          stop: function(event, ui) {
-              //socket.emit('postits.upsert', { t})
-          }
-      });
+        var element = $('<div data-position="' + postit.position + '" class="post-it-note ui-widget-content ui-draggable ui-draggable-handle" id="id' + postit.id + '">' + postit.text + '</div>').draggable({
+            stop: function(event, ui) {
+                console.log($('#id'+postit.id));
+                var pos = $('#id'+postit.id).position();
+                console.log(pos);
+                socket.emit('postits.upsert', { id:$('#id' + postit.id), text: $('#id' + postit.id).text(), position: pos.left + ',' + pos.top});
+            }
+        });
+        $('body').append(element);
+
+
     }
   });
 
