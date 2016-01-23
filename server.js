@@ -20,8 +20,9 @@ app.use(bodyParser.json())
 server.listen(port)
 
 function notifyActionOnPostItToClients(action, postit) {
-  console.log('notifyActionOnPostItToClients ', "postits.${action}", postit)
-  io.sockets.emit(`postits.${action}`, postit)
+  var event_channel = `postits.${action}`
+  console.log('notifyActionOnPostItToClients ', event_channel, postit)
+  io.sockets.emit(event_channel, postit)
 }
 
 io.on('connection', (socket) => {
