@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
       postit.id = postits.length + 1
       postits.push(postit)
     } else {
-      var serverPostit = _.findWhere(postits, { id: postit.id })
+      var serverPostit = _.find(postits, (p) => { return p.id == postit.id })
       if (serverPostit != null) {
         serverPostit.text = postit.text
         serverPostit.position = postit.position
