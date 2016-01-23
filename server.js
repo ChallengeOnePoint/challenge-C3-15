@@ -37,6 +37,12 @@ io.on('connection', (socket) => {
     if (postit.id == null) {
       postit.id = postits.length + 1
       postits.push(postit)
+    } else {
+      var serverPostit = _.findWhere(postits, { id: postit.id })
+      if (serverPostit != null) {
+        serverPostit.text = postit.text
+        serverPostit.position = postit.position
+      }
     }
     notifyActionOnPostItToClients('upsert', postit)
   })
