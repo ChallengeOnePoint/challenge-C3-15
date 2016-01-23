@@ -13,12 +13,15 @@ var server = http.createServer(app)
 var io = socket(server)
 
 var postits = []
-var clients = []
 
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json())
 
 server.listen(port)
+
+function upsertPostItToClients(postit) {
+  io.sockets.emit('postits.upsert', postit)
+}
 
 io.on('connection', function (socket) {
   console.log('connected')
@@ -34,7 +37,7 @@ io.on('connection', function (socket) {
       postit.id = postits.length + 1
       postits.push(postit)
     }
-    socket.emit('postits.upsert', postit)
+    upsertPostItToClients(postit)
   })
 })
 
