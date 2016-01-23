@@ -35,7 +35,10 @@
                 console.log($('#id'+postit.id));
                 var pos = $('#id'+postit.id).position();
                 console.log(pos);
-                socket.emit('postits.upsert', { id:postit.id, text: $('#id' + postit.id).text(), position: pos.left + ',' + pos.top});
+                socket.emit('postits.upsert', {
+                  id: postit.id, text: $('#id' + postit.id).text(),
+                  position: pos.left + ',' + pos.top
+                });
             }
         });
         $('body').append(element);
@@ -43,7 +46,7 @@
         var editor = new MediumEditor('#id' + postit.id);
         editor.subscribe('editableInput', function (event, editable) {
             socket.emit('postits.upsert', {
-                id: event.target.id,
+                id: parseInt(event.target.id.substr(2)),
                 text: event.target.textContent,
                 position: [50, 300]
             });
