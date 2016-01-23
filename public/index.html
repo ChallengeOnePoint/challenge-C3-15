@@ -23,7 +23,11 @@
     if ($('div.postit.id' + postit.id).length > 0) {
       $('div.postit.id' + postit.id).text(postit.text);
     } else {
-      $('body').append('<div class="post-it-note" id="postit id' + postit.id + '">' + postit.text + '</div>');
+      $('body').append('<div class="post-it-note ui-widget-content ui-draggable ui-draggable-handle" id="postit id' + postit.id + '">' + postit.text + '</div>').draggable({
+          stop: function(event, ui) {
+              //socket.emit('postits.upsert', { t})
+          }
+      });
     }
   });
 
