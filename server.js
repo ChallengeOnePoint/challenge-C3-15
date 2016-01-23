@@ -19,26 +19,36 @@ app.use(bodyParser.json())
 
 server.listen(port)
 
-function upsertPostItToClients(postit) {
-  io.sockets.emit('postits.upsert', postit)
+function notifyActionOnPostItToClients(action, postit) {
+  io.sockets.emit("postits.${action}", postit)
 }
 
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
   console.log('connected')
 
-  postits.forEach(function(postit) {
+  postits.forEach((postit) => {
     socket.emit('postits.upsert', postit)
   })
 
-  socket.on('postits.upsert', function (postit) {
+  socket.on('postits.upsert', (postit) => {
     console.log('upsert postit ', postit)
+
+    if (postit.id == null) {
+      _.remove(postits, { id: postit.id })
+    }
+    notifyActionOnPostItToClients('delete', postit)
+  })
+
+  socket.on('postits.delete', (postit) => {
+    console.log('delete postit ', postit)
 
     if (postit.id == null) {
       postit.id = postits.length + 1
       postits.push(postit)
     }
-    upsertPostItToClients(postit)
+    notifyActionOnPostItToClients('upsert', postit)
   })
+
 })
 
 console.log('Hello world!')
