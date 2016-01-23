@@ -13,8 +13,10 @@
 <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
 
 <script src="libs/socket.io-1.4.3.js"></script>
+
 <script>
   var socket = io.connect('http://localhost:8080/');
+  var editors = [];
 
   socket.on('postits.upsert', function (postit) {
     console.log(postit);
@@ -28,6 +30,16 @@
               //socket.emit('postits.upsert', { t})
           }
       });
+
+      var editor = new MediumEditor('.id-' + postit.id);
+      editor.subscribe('editableInput', function (event, editable) {
+        socket.emit('postits.upsert', {
+          id: event.target.id,
+          text: event.target.textContent,
+          position: [50, 300]
+        });
+      });
+      editors.push(editor);
     }
   });
 
