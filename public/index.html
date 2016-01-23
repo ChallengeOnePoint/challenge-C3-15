@@ -55,6 +55,7 @@
         });
 
       $('body').append(element);
+        element.offset(postit.position);
 
       var editor = new MediumEditor('#id' + postit.id);
         editor.subscribe('editableInput', function (event, editable) {
