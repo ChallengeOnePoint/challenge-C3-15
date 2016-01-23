@@ -12,11 +12,12 @@
     "body-parser": "1.14.1",
     "ejs": "2.3.4",
     "express": "4.13.3",
+    "get-json-plz": "0.0.2",
     "google-geocoding": "0.1.7",
     "jade": "1.11.0",
     "json-parse": "^1.0.3",
     "json-parser": "^1.1.5",
-    "mongoose": "4.2.5",
-    "get-json-plz": "0.0.2"
+    "lodash": "^4.0.0",
+    "mongoose": "4.2.5"
   }
 }
