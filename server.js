@@ -12,7 +12,7 @@ var app = express()
 var server = http.createServer(app)
 var io = socket(server)
 
-var posts = []
+var postits = []
 var clients = []
 
 app.use(express.static(__dirname + '/public'))
@@ -22,9 +22,19 @@ server.listen(port)
 
 io.on('connection', function (socket) {
   console.log('connected')
-  socket.emit('news', { hello: 'world' })
-  socket.on('my other event', function (data) {
-    console.log(data)
+
+  postits.forEach(function(postit) {
+    socket.emit('postits.upsert', postit)
+  })
+
+  socket.on('postits.upsert', function (postit) {
+    console.log('upsert postit ', postit)
+
+    if (postit.id == null) {
+      postit.id = postits.length + 1
+      postits.push(postit)
+    }
+    socket.emit('postits.upsert', postit)
   })
 })
 
