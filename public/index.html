@@ -4,6 +4,7 @@
   <link rel="stylesheet" href="assets/styles/app.css">
 </head>
 <body>
+<button id='createBtn'>+</button>
 
 <script src="bower_components/medium-editor/dist/js/medium-editor.js"></script>
 <link rel="stylesheet" href="bower_components/medium-editor/dist/css/medium-editor.css">
@@ -22,19 +23,19 @@
     return $('.post-it-note#id' + postit.id);
   }
 
+  var createHandler = function() {
+    socket.emit('postits.upsert', { text: 'data', position: [50, 300] });
+    console.log('post it created !')
+  }
+
+  $('#createBtn').on('click', createHandler);
+
   socket.on('postits.upsert', function (postit) {
     console.log(postit);
 
     // Already displayed PostIt
     var $existingPostIt = findPostIt(postit)
     if ($existingPostIt.length > 0) {
-      /*
-      var positionParts = postit.position.split(',');
-      var offset = $existingPostIt.position({
-        left: positionParts[0],
-        top: positionParts[1]
-      });
-      */
       var offset = $existingPostIt.offset(postit.position);
       $existingPostIt.text(postit.text)
                       .data('position', postit.position)
@@ -48,13 +49,14 @@
                 socket.emit('postits.upsert', {
                   id: postit.id,
                   text: $('#id' + postit.id).text(),
-                  position: $('#id'+postit.id).offset() // pos.left + ',' + pos.top
+                  position: $('#id'+postit.id).offset()
                 });
             }
         });
-        $('body').append(element);
 
-        var editor = new MediumEditor('#id' + postit.id);
+      $('body').append(element);
+
+      var editor = new MediumEditor('#id' + postit.id);
         editor.subscribe('editableInput', function (event, editable) {
             socket.emit('postits.upsert', {
                 id: parseInt(event.target.id.substr(2)),
@@ -71,7 +73,6 @@
     // TODO: Remove MediumEditor associated
   });
 
-  socket.emit('postits.upsert', { text: 'data', position: [50, 300] });
 
 </script>
 
