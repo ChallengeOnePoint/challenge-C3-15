@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
     if (postit.id == null) {
       _.remove(postits, { id: postit.id })
     }
-    notifyActionOnPostItToClients('delete', postit)
+    notifyActionOnPostItToClients('upsert', postit)
   })
 
   socket.on('postits.delete', (postit) => {
@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
       postit.id = postits.length + 1
       postits.push(postit)
     }
-    notifyActionOnPostItToClients('upsert', postit)
+    notifyActionOnPostItToClients('delete', postit)
   })
 
 })
