@@ -19,11 +19,11 @@
     if ($('div.postit.id' + postit.id).length > 0) {
       $('div.postit.id' + postit.id).text(postit.text);
     } else {
-      $('body').append('<div class="postit id' + postit.id + '">' + postit.text + '</div>');
+      $('body').append('<div class="post-it-note" id="postit id' + postit.id + '">' + postit.text + '</div>');
     }
   });
 
-  socket.emit('postits.upsert', { text: 'data', position: [50, 300] });
+  //socket.emit('postits.upsert', { text: 'data', position: [50, 300] });
 
 </script>
 

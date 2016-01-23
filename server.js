@@ -13,29 +13,42 @@ var server = http.createServer(app)
 var io = socket(server)
 
 var postits = []
-var clients = []
 
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json())
 
 server.listen(port)
 
-io.on('connection', function (socket) {
+function notifyActionOnPostItToClients(action, postit) {
+  io.sockets.emit("postits.${action}", postit)
+}
+
+io.on('connection', (socket) => {
   console.log('connected')
 
-  postits.forEach(function(postit) {
+  postits.forEach((postit) => {
     socket.emit('postits.upsert', postit)
   })
 
-  socket.on('postits.upsert', function (postit) {
+  socket.on('postits.upsert', (postit) => {
     console.log('upsert postit ', postit)
+
+    if (postit.id == null) {
+      _.remove(postits, { id: postit.id })
+    }
+    notifyActionOnPostItToClients('delete', postit)
+  })
+
+  socket.on('postits.delete', (postit) => {
+    console.log('delete postit ', postit)
 
     if (postit.id == null) {
       postit.id = postits.length + 1
       postits.push(postit)
     }
-    socket.emit('postits.upsert', postit)
+    notifyActionOnPostItToClients('upsert', postit)
   })
+
 })
 
 console.log('Hello world!')
