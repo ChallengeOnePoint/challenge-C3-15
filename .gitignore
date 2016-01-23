@@ -21,7 +21,8 @@ server/node_modules
 client/dist
 
 # Bower
-client/bower_components/
+public/bower_components
+node_modules
 
 
 ### OSX template
