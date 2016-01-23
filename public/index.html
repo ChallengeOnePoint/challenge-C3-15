@@ -18,11 +18,15 @@
   var socket = io.connect('http://localhost:8080/');
   var editors = [];
 
+  function findPostIt(postit) {
+    return $('.post-it-note#id' + postit.id);
+  }
+
   socket.on('postits.upsert', function (postit) {
     console.log(postit);
 
     // Already displayed PostIt
-    var $existingPostIt = $('.post-it-note#id' + postit.id)
+    var $existingPostIt = findPostIt(postit)
     if ($existingPostIt.length > 0) {
       $existingPostIt.text(postit.text);
     } else {
@@ -46,6 +50,11 @@
         });
         editors.push(editor);
     }
+  });
+
+  socket.on('postits.delete', function (postit) {
+    findPostIt(postit).remove();
+    // TODO: Remove MediumEditor associated
   });
 
   socket.emit('postits.upsert', { text: 'data', position: [50, 300] });
