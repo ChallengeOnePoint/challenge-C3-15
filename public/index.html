@@ -52,6 +52,7 @@
                 });
             }
         });
+        element.offset(postit.position);
         $('body').append(element);
 
         var editor = new MediumEditor('#id' + postit.id);
