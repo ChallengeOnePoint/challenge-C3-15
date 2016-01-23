@@ -22,8 +22,9 @@
     console.log(postit);
 
     // Already displayed PostIt
-    if ($('div.postit.id' + postit.id).length > 0) {
-      $('div.postit.id' + postit.id).text(postit.text);
+    var $existingPostIt = $('.post-it-note#id' + postit.id)
+    if ($existingPostIt.length > 0) {
+      $existingPostIt.text(postit.text);
     } else {
         var element = $('<div data-position="' + postit.position + '" class="post-it-note ui-widget-content ui-draggable ui-draggable-handle" id="id' + postit.id + '">' + postit.text + '</div>').draggable({
             stop: function(event, ui) {
