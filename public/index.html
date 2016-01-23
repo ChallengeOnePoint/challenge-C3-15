@@ -15,10 +15,10 @@
     console.log(postit);
 
     // Already displayed PostIt
-    if ($('div.postit.id' + postit.id).lengt > 0) {
+    if ($('div.postit.id' + postit.id).length > 0) {
       $('div.postit.id' + postit.id).text(postit.text);
     } else {
-      $('body').append('<div class="postit id' + postit + '">' + postit.text + '</div>');
+      $('body').append('<div class="postit id' + postit.id + '">' + postit.text + '</div>');
     }
   });
 
