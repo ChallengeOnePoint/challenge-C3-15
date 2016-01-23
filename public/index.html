@@ -28,16 +28,27 @@
     // Already displayed PostIt
     var $existingPostIt = findPostIt(postit)
     if ($existingPostIt.length > 0) {
-      $existingPostIt.text(postit.text);
+      /*
+      var positionParts = postit.position.split(',');
+      var offset = $existingPostIt.position({
+        left: positionParts[0],
+        top: positionParts[1]
+      });
+      */
+      var offset = $existingPostIt.offset(postit.position);
+      $existingPostIt.text(postit.text)
+                      .data('position', postit.position)
     } else {
         var element = $('<div data-position="' + postit.position + '" class="post-it-note ui-widget-content ui-draggable ui-draggable-handle" id="id' + postit.id + '">' + postit.text + '</div>').draggable({
             stop: function(event, ui) {
                 console.log($('#id'+postit.id));
                 var pos = $('#id'+postit.id).position();
                 console.log(pos);
+
                 socket.emit('postits.upsert', {
-                  id: postit.id, text: $('#id' + postit.id).text(),
-                  position: pos.left + ',' + pos.top
+                  id: postit.id,
+                  text: $('#id' + postit.id).text(),
+                  position: $('#id'+postit.id).offset() // pos.left + ',' + pos.top
                 });
             }
         });
