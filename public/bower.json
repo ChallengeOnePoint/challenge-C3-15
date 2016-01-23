@@ -1,0 +1,21 @@
+{
+  "name": "GET-it",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Stephane Roche <stephane.roche@anaplan.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/ChallengeOnePoint/challenge-C3-15",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.0"
+  }
+}
